@@ -229,3 +229,93 @@ for dict in dicts {
 }
 
 print(namessssss)//迴圈外面 列印namessssss ，結果應該是["john", "Anna", "Andy"]
+
+//----------------------
+//Optional 選擇值
+/*
+ Optional是Swift特有的語法，比喻來說的話，是可以讓變數變成在與不在之間的狀態
+ 使用上如果還不想確定一個變數的預設值想要是什麼，或是變數有可能發生甚麼值都沒有情況，就可以使用Optinal，
+ 宣告方式是在任何資料型態後面加上 ? or !
+ */
+
+//任何資料型態都可以加上Optional
+//被加上Optional的變數不能直接使用，使用前必須使用特殊的語法: 來讓變數變成一般資料型態
+
+//ex:未來會有可能需要用到這個變數，可是目前還不知道這個要放什麼，
+var optionalInt: Int? //Optional的整數
+var optionalInt1: Int? = 1 //Optional的整數，預設值是1
+var optionalInt2: Int? = nil //Optional的整數，預設值是什麼東西都沒有的nil，只有用Optional宣告的變數才能等於nil
+
+/*
+ 題目:宣告三個浮點數，並加上optional，
+ 依序為：
+ 1.Optional的浮點數
+ 2.Optional的浮點數，預設值是1.1
+ 3.Optional的浮點數，預設值是nil
+ */
+
+
+//Optional的變數不能被直接使用，下面這些程式碼都不能執行，因為兩個變數都是Optional值
+//var testOptionalInt = optionalInt + 1
+//var testOptionalInt1 = optionalInt1 + 1
+//var testOptionalInt2 = optionalInt2 + 1
+
+
+//如果要想要使用Optional的變數
+
+/*
+ 方法1: 強制解：變數加上 !，強制使用Optional值，編譯時不會出錯，但如果程式執行到這裡發現Optional變數裡沒有東西，就會當機，
+ 若要使用方法1，必須確認Optional變數在使用到時一定有值。
+ */
+
+//var testInt = optionalInt! + 1 //執行這裡時會當機，因為這一行optionalInt沒有值
+
+optionalInt = 1 //要先讓optionalInt這個東西有值，才可以使用
+var testInt2 = optionalInt! + 1
+print(testInt2) // 2
+
+
+/*
+ 題目: 宣告一個浮點數A，並加上optional後，預設值為1.5，再宣告一個浮點數B，值為浮點數A加上1.1
+ print 浮點數B 應為 2.6
+ */
+
+
+
+/*
+ 方法2: 選擇解：if let，如果要解開的東西有值，則放進一個變數後執行{}內的程式。
+ 可以與else混用
+ */
+
+var optionalString: String? //Optional的字串
+
+//如果optionalString有值，就會宣告一個常數text1，並把optionalString的值給text1，並執行 if 區段的程式，text1只會存活在 if 區段的程式內
+if let text1 = optionalString {
+    print(text1) //不會執行這裡，因為optionalString目前沒有值
+} else {
+    //print(text1) //這行會出錯，因為這邊呼叫不到text1
+    print("optionalString 沒有東西喔！！！")
+}
+
+/*
+ 題目: 宣告一個整數C，並加上optional後，預設值為1，並使用 if let 語法，在if 區段 列印整數C
+ 
+ 提示: 需要給整數C一個預設值
+ */
+
+
+/*
+ 方法三3: 預設解 ?? ，如果optional的變數沒有值，則使用 ?? 後的值
+ */
+
+var defaultString = optionalString ?? "xxx" //如果optionalString有值，則把值指定給defaultString，否則把"xxx"指定給defaultString
+
+
+/*
+ 題目:
+ 1.testAge 型態為一般的整數，預設值為0
+ 2.讓 testAge 等於 字典內的age的裡面的26
+ 
+ 提示: 字典取值時是 會是optional的型態，可以運用任何上述任一種方法讓他變成一般型態後放進 testAge這個變數裡面
+ */
+
