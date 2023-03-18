@@ -445,8 +445,172 @@ func printArrayAvg(array: [Int]) {
 }
 
 //---------------------------------enum 列舉-----------------------------
-//---------------------------------switch 列舉-----------------------------
-//---------------------------------class 類別-----------------------------
+/*
+ 列舉是一種包含了自定義的各種狀況的資料型態
+ 
+ 使用的情況主要是為了協助我們在有限的情況中定義與分類，假設我們需要定義寵物的種類，就可以使用enum，通常會與Switch搭配使用
+ 列舉也是一種資料型態
+ 
+ 舉例來說如果我要判對我的寵物是什麼種類，在沒有使用enum，只使用字串或是數字的時候像這樣:
+ 
+ if myPet == "cat" {
+    print("我的寵物是貓")
+ }
+ 
+ if myPet == "dog" {
+    print("我的寵物是貓")
+ }
+ 
+ 必須每次判斷都需要重打一次字串，很麻煩，如果字串不小心打錯，就喪失這個判斷本來應該要有的功能，這時就可以使用列舉來協助
+
+ */
+
+enum Pet {
+    
+    ///狗
+    case dog
+    
+    ///貓
+    case cat
+    
+    ///兔子
+    case rabbit
+}
+
+var myPet: Pet = Pet.cat
+
+if myPet == Pet.cat {
+    print("我的寵物是貓")
+}
+
+//如果確定這個變數的資料型態是一個列舉，那可以審略Pet
+if myPet == .dog {
+    print("我的寵物是狗")
+}
+
+//列舉也可以承載有意義的資料
+
+//像這個 載具 列舉 就是帶著字串的列舉，列舉中的每個case 都必須要=一個字串，如果沒有給，那就會預設是這個case 自己的名稱
+enum Vehicle: String {
+    case bus = "巴士"
+    case car = "車"
+    case bicycle = "腳踏車"
+    case moto
+}
+
+var myVehicle: String = Vehicle.bus.rawValue //使用時在列舉後面加上 rawValue 就可以獲得這個列舉帶的字串
+var myVehicle1: String = Vehicle.moto.rawValue
+
+print(myVehicle) //輸出結果是巴士
+print(myVehicle1) //輸出結果是moto，因為這個列舉沒有給他字串，所以他會自帶他自己的字串
+
+//enum也可以帶數字
+enum Rank: Int {
+    case champion = 1
+    case second = 2
+    case third = 3
+}
+
+
+let myRank: Rank = .second
+let myRankNumber: Int = myRank.rawValue
+
+//當列舉是帶數字時，如果審略每個列舉帶的數字，則程式會幫從0開始按照順序填滿
+enum RankB: Int {
+    case champion // 0
+    case second // 1
+    case third //2
+}
+
+let myRankB: RankB = .second
+let myRankBNumber: Int = myRankB.rawValue
+
+//---------------------------------switch-----------------------------
+/**
+ 使用上類似
+ if {
+ } else if {
+ } else if {
+ }
+ 主要差別是時機點的不同，if 判斷式主要使用在程式撰寫時 要判斷的事情 不確定有多少可能的情況時，如果發生了某種情況則執行
+ switch則是 在程式撰寫時就知道有 幾種的情況，在撰寫時就必須要把所有可能發生的情況都列出來，如果發生其中一種情況則執行
+ 
+ switch是 處理有限的狀況，enum則是定義可能有的情況。因此通常enum跟switch會互相搭配使用
+ */
+
+//承上面 enum Pet ，舉例來說如果要寫一個判斷我的寵物是什麼的程式
+
+//用if else if 來寫會是
+if myPet == .cat {
+    print("我的寵物是貓")
+} else if myPet == .dog {
+    print("我的寵物是狗")
+} else {
+    print("我的寵物不是貓也不是夠")
+}
+
+//用switch來寫的話會是
+//必須把所有可能的情況都列出來，如果把其中一個case 刪除掉，電腦會提醒你錯誤，請你把所有的情況都補齊
+switch myPet {
+case .dog:
+    print("我的寵物是狗")
+case .cat:
+    print("我的寵物是貓")
+case .rabbit:
+    print("我的寵物兔子")
+}
+
+//必須把所有可能的情況都列出來
+switch myPet {
+case .dog:
+    print("我的寵物是狗")
+case .cat:
+    print("我的寵物是貓")
+case .rabbit:
+    print("我的寵物兔子")
+}
+
+//如果不想列出所有的情況，則要使用default，如果某種情況不想執行任何程式，則可以用break結束這次switch
+
+switch myPet {
+case .dog:
+    print("我的寵物是狗") //如果myPet 是 dog則執行這行
+case .cat:
+    break //如果myPet 是 cat則不執行任何程式，結束這次switch
+default:
+    print("我的寵物沒有被switch列舉出來") //如果myPet不在上述有case 出來的情況內，則執行這行
+}
+
+//題目寫出一個 叫做 Zoo的enum，這是一個用來定義動物園裡面的動物的列舉，並定義出3種以上的動物，並且用Switch
+
+
+//---------------------------------class 類別 物件 -----------------------------
+/**
+ 類別算是一種複合式的資料型態，可以把想像成一個包裹，裏面包含各種資料型態 、 func 等
+ 並且也是需要先定義出來，等到適當的時機才可以使用，並且class可以使用初始化函式 init ，當一個class準備要初始化時可以呼叫這個初始化函式，並給予參數，讓這個class依照自定義的方式初始化
+ 
+ 用 class 產生出來的變數我們會稱之為物件
+ */
+
+class Person {
+    
+    enum Sex {
+        case male
+        case female
+        case none
+    }
+    
+    var name: String?
+    var age: Int?
+    var sex: Sex = .none
+    
+    init(
+    ) {
+        
+    }
+}
+
+
 //---------------------------------struct 結構-----------------------------
 //---------------------------------protocol 協定-----------------------------
 
