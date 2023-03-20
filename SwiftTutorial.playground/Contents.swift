@@ -126,7 +126,7 @@ print(sex1) // "M"
  */
 
 
-//---------------------------------判斷式-----------------------------
+//---------------------------------if判斷式-----------------------------
 //判斷式
 //如果 if 後面的條件是為真，則執行if區段的程式碼，否則執行else區段的程式碼
 //判斷子 == 如果左右兩邊相等則為真
@@ -253,7 +253,30 @@ print(namessssss)//迴圈外面 列印namessssss ，結果應該是["john", "Ann
  Optional是Swift特有的語法，比喻來說的話，是可以讓變數變成在與不在之間的狀態
  使用上如果還不想確定一個變數的預設值想要是什麼，或是變數有可能發生甚麼值都沒有情況，就可以使用Optinal，
  宣告方式是在任何資料型態後面加上 ? 或是 !
+ 
+ 
  */
+/*
+ //舉例來說，用一個 myTestPoint變數來表達我的考試成績很簡單
+ 只需要
+ var myTestPoint: Int = 90
+ 就好
+ 
+ 但是要是我還沒有考試，還沒有成績呢，要怎麼用一個變數可以同時表達這兩件事情
+ 此時就可以用 Optional來表示
+ */
+
+var myTestPoint: Int? //因為還沒有成績所以先不給數字
+
+//如果myTestPoint有成績就列印 我的考試成績是多少，
+if let point = myTestPoint {
+    print("我的考試成績是\(point)")
+} else {
+    print("我還沒有考試")
+}
+
+
+
 
 //任何資料型態都可以加上Optional
 //被加上Optional的變數不能直接使用，使用前必須使用特殊的語法: 來讓變數變成一般資料型態
@@ -400,6 +423,8 @@ printAverage(a: 100, b: 200) // 輸出結果是150
  使用有回傳值的函式時可以拿到這個函式運算過後產生的值，
  就像是工廠經過生產線後給你成品。
  
+ 要回傳值時要用return
+ 
  有回傳值的函式也可以餵參數
  */
 
@@ -444,6 +469,34 @@ func printArrayAvg(array: [Int]) {
     
 }
 
+//---------------------------------guard 判斷式-----------------------------
+/*
+ guard的作用就像一個警衛，用法類似於if，通常會用在 func中
+ 寫if時不一定需要寫else，但寫guard時一定要有else跟return搭配
+ 
+ if是：如果條件成立，則執行{}中的程式碼；
+ guard是: 如果條件成立 則繼續執行guard下方的程式碼，否則則執行else段的程式後結束
+ */
+
+//這是一個用來判斷名字是不是"John的func，當我呼叫這個func時，他會根據我輸入的參數執行不同的程式"
+func judgeName(name: String) {
+    
+    //判斷參數name是不是"John"
+    guard name == "John" else {
+        print("你的名字不是John，給我離開")
+        return //結束這個func，guard 條件式 後一定要有else ，else的程式內一定要有return。
+    }
+    
+    
+    print("John您好，歡迎回家") //如果 name == "John" 則會執行這一行
+
+}
+
+judgeName(name: "John") // 輸出結果是 "John您好，歡迎回家"
+judgeName(name: "Anna") // 輸出結果是 "你的名字不是John，給我離開"
+
+
+
 //---------------------------------enum 列舉-----------------------------
 /*
  列舉是一種包含了自定義的各種狀況的資料型態
@@ -475,6 +528,9 @@ enum Pet {
     
     ///兔子
     case rabbit
+    
+    ///鳥
+    case bird
 }
 
 var myPet: Pet = Pet.cat
@@ -558,19 +614,12 @@ case .cat:
     print("我的寵物是貓")
 case .rabbit:
     print("我的寵物兔子")
+case .bird:
+    print("我的寵物鳥")
 }
 
-//必須把所有可能的情況都列出來
-switch myPet {
-case .dog:
-    print("我的寵物是狗")
-case .cat:
-    print("我的寵物是貓")
-case .rabbit:
-    print("我的寵物兔子")
-}
-
-//如果不想列出所有的情況，則要使用default，如果某種情況不想執行任何程式，則可以用break結束這次switch
+//如果不想列出所有的情況，則要使用default。
+//如果某種情況不想執行任何程式，則可以用break結束這次switch
 
 switch myPet {
 case .dog:
@@ -581,37 +630,159 @@ default:
     print("我的寵物沒有被switch列舉出來") //如果myPet不在上述有case 出來的情況內，則執行這行
 }
 
+//如果有兩個情況要做同一件事情的時候
+switch myPet {
+case .dog, .cat, .rabbit:
+    print("我的寵物有四隻腳") //如果myPet 是 dog, cat, rabbit 都會執行這行
+case .bird:
+    print("我的寵物有兩隻腳") //如果myPet 是 bird 執行這行
+}
+
+//進階用法: switch區間
+
+let myWeight: Int = 100
+
+switch myWeight {
+case 0..<50:
+    print("體重太輕了")
+case 51..<80:
+    print("體重正常")
+case 81..<100:
+    print("體重過重")
+default:
+    print("體重超出了定義")
+}
+
+
+//定義enum時
+
 //題目寫出一個 叫做 Zoo的enum，這是一個用來定義動物園裡面的動物的列舉，並定義出3種以上的動物，並且用Switch
+
+
+
 
 
 //---------------------------------class 類別 物件 -----------------------------
 /**
  類別算是一種複合式的資料型態，可以把想像成一個包裹，裏面包含各種資料型態 、 func 等
- 並且也是需要先定義出來，等到適當的時機才可以使用，並且class可以使用初始化函式 init ，當一個class準備要初始化時可以呼叫這個初始化函式，並給予參數，讓這個class依照自定義的方式初始化
+ 並且也是需要先定義出來，等到適當的時機才可以使用，
+ 並且class可以有初始化函式 init ，當一個class準備要初始化時可以呼叫這個初始化函式，並給予參數，讓這個class依照自定義的方式初始化，
+ 初始化函式只會在class被產生時使用
  
  用 class 產生出來的變數我們會稱之為物件
  */
 
-class Person {
+//這個是一個 用來表示個人資訊的class ，這個class中 有四個變數 name用來記錄名字，age用來記錄年齡，sex用來記錄性別，married用來記錄是否已經結婚了
+class PersonInfo {
     
+    //class也可以定義enum
+    //性別列舉
     enum Sex {
+        //男性
         case male
+        
+        //女性
         case female
-        case none
     }
     
-    var name: String?
-    var age: Int?
-    var sex: Sex = .none
+    //身份
+    var name: String = ""
     
+    //年齡
+    var age: Int = 0
+    
+    //性別，這是一個列舉
+    var sex: Sex = .male
+    
+    //婚姻狀態
+    var married: Bool = false
+    
+    //初始化函式: 這個class初始化時要給四個參數
     init(
+        name: String, //如果沒有給預設，當初始化時就一定要給一個值
+        age: Int,
+        sex: Sex = .male, //跟func 一樣，參數可以給預設值，都初始化這個class時，如果沒有給sex參數一個新的值的話，就會預設是male
+        married: Bool = false //同上，預設是false
     ) {
+        /*
+         = 左邊的name指的是這個class 中的name， = 右邊的name指的是初始化時丟進來的參數， self用來表示這個是這個class中的name，
+         習慣上在使用到class中的變數時會在變數前面加上self
+         */
+        self.name = name
+        self.age = age
+        self.sex = sex
+        self.married = married
+    }
+    
+    //class除了變數外，也可以擁有函式
+    //這是一個用來變換結婚狀態的func，他會根據傳入的marry參數的值，變換class中的married的值，並且列印出目前的結婚狀態
+    func changeMarriedStatus(marry: Bool) {
+        married = marry //把這個class中的married這個變數，變成傳進來的marry這個參數的值
+        
+        if married {
+            print("我的婚姻狀態是結婚") //如果 married為true則執行這裡
+        } else {
+            print("我的婚姻狀態是未婚") //否則執行這裡
+        }
         
     }
+    
+    //當然也可以擁有有回傳值的func
+    //這是一個可以拿到是不是成年的func，會印出文字並回傳一個Bool值
+    func getIsAdultStatus() -> Bool {
+        
+        //如果 age 大於等於18則往下執行，否則執行else
+        guard self.age >= 18 else {
+            print("未滿18")
+            return false
+        }
+        
+        print("滿18了我成年了")
+        return true
+    }
+    
+    
+    
+}
+
+//這是一個叫做 johnInfo的變數，型態是PersonInfo，初始化時sex跟married都有新的值
+var johnInfo: PersonInfo = PersonInfo(name: "John", age: 20, sex: .male, married: true)
+
+//這是一個叫做 annaInfo的變數，型態是PersonInfo，初始化時sex跟married都有新的值
+var annaInfo: PersonInfo = PersonInfo(name: "Anna", age: 17, sex: .female, married: false)
+
+//這是一個叫做 jackInfo的變數，型態是PersonInfo，初始化時sex跟married都使用預設值
+var jackInfo: PersonInfo = PersonInfo(name: "jack", age: 31)
+
+//這三個物件的型態都是PersonInfo ，他們通通擁有PersonInfo的所有變數跟函式
+
+
+print(johnInfo.name) //列印johnInfo裡的name，輸出結果是"John"
+print(johnInfo.age) //列印johnInfo裡的age，輸出結果是20
+print(johnInfo.sex) //列印johnInfo裡的sex，輸出結果是male
+print(johnInfo.married) //列印johnInfo裡的sex，輸出結果是true
+//可以print看看其他兩個的各個項目是什麼
+
+//取得johnInfo中的getIsAdultStatus回傳值來判斷要執行哪行程式
+if johnInfo.getIsAdultStatus() {
+    print(johnInfo.name + "已經成年了") //如果getIsAdultStatus()回傳為true則執行這行，輸出結果是 johnInfo的name加上"已經成年了"； John已經成年了
+} else {
+    print(johnInfo.name + "還未成年") //否則則執行這行，輸出結果是 johnInfo的name加上"還未成年"； John還未成年
 }
 
 
+print(johnInfo.married) //列印johnInfo裡的sex，輸出結果是true
+johnInfo.changeMarriedStatus(marry: false) //呼叫johnInfo中的func，並給予參數，這個func的做用根據傳入的參數改變johnInfo.married的狀態
+print(johnInfo.married) //列印johnInfo裡的sex，輸出結果是false
+
 //---------------------------------struct 結構-----------------------------
+/**
+ struct的概念與class類似，差別在於
+ 當用Class宣告出一個A變數後，用一個B變數=A變數，這兩個變數會是同一個源頭的class，
+ 當改變B變數時，A也會被改變
+ */
 //---------------------------------protocol 協定-----------------------------
+
+
 
 
